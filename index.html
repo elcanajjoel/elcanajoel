@@ -41,6 +41,17 @@
                 <button type="submit">Send</button>
                 <!-- After setting up Formspree, replace 'yourformid' with your actual Formspree form ID -->
             </form>
+            <script>
+            // Refresh the page after successful form submission
+            document.querySelector('form[action^="https://formspree.io/"]').addEventListener('submit', function(e) {
+                var form = this;
+                setTimeout(function() {
+                    form.reset();
+                    location.reload();
+                }, 1000); // Wait 1 second before reload
+            });
+            </script>
+            </form>
         </section>
     </main>
     <footer>
