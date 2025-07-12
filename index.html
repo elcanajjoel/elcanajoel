@@ -41,21 +41,32 @@
                 <button type="submit">Send</button>
                 <!-- After setting up Formspree, replace 'yourformid' with your actual Formspree form ID -->
             </form>
+            <div id="thankyou-message" style="display:none;color:green;margin-top:1em;">Thank you for your message!</div>
             <script>
-            // Refresh the page after successful form submission
+            // AJAX Formspree submission with thank you message
             document.querySelector('form[action^="https://formspree.io/"]').addEventListener('submit', function(e) {
+                e.preventDefault();
                 var form = this;
-                setTimeout(function() {
-                    form.reset();
-                    location.reload();
-                }, 1000); // Wait 1 second before reload
+                var data = new FormData(form);
+                var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action);
+                xhr.setRequestHeader('Accept', 'application/json');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+                    if (xhr.status === 200) {
+                        document.getElementById('thankyou-message').style.display = 'block';
+                        form.reset();
+                    } else {
+                        alert('There was a problem sending your message. Please try again.');
+                    }
+                };
+                xhr.send(data);
             });
             </script>
-            </form>
         </section>
     </main>
     <footer>
-        <p>&copy; 2025 Joel Celestine -</p>
+        <p>&copy; 2025 Joel Celestine</p>
     </footer>
     <script src="script.js"></script>
 </body>
